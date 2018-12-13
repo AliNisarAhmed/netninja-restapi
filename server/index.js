@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 })
 
 connect('mongodb://localhost:27017/ninjago')
-.then(() => app.listen(process.env.PORT || 3000, () => {
+.then(() => app.listen(process.env.PORT || 4000, () => {
     console.log('server started');
   }))
 .catch(e => console.error(e));

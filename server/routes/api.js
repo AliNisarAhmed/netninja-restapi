@@ -3,21 +3,23 @@ const router = express.Router();
 const Ninja = require('../models/ninja');
 
 // GET a list of noinjas from teh DB
-router.get('/ninjas', (req, res, next) => {
-  // let ninjas = await Ninja.find({});
-  // res.send(ninjas);
-  console.log(req.query);
-  Ninja.aggregate().near({
-    near: {
-      type: 'Point',
-      coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)],
-    }, 
-    maxDistance: 100000,
-    spherical: true,
-    distanceField: "dis"
-  }).then(function(ninjas) {
+router.get('/ninjas', async (req, res, next) => {
+  if (!req.query.lng && !req.query.lat) {
+    let ninjas = await Ninja.find({});
     res.send(ninjas);
-  })
+  } else {
+    Ninja.aggregate().near({
+      near: {
+        type: 'Point',
+        coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)],
+      }, 
+      maxDistance: 100000,
+      spherical: true,
+      distanceField: "dis"
+    }).then(function(ninjas) {
+      res.send(ninjas);
+    })
+  }
 })
 
 // POST add a new ninja to the list

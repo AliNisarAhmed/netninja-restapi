@@ -24007,17 +24007,162 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"main.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"components/App.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+var App =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(App, _Component);
+
+  function App(props) {
+    var _this;
+
+    _classCallCheck(this, App);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+    _this.state = {
+      longitude: '',
+      latitude: '',
+      ninjas: []
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleLatitudeChange = _this.handleLatitudeChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleLongitudeChange = _this.handleLongitudeChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.showAllNinjas = _this.showAllNinjas.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    return _this;
+  }
+
+  _createClass(App, [{
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      fetch("/api/ninjas?lng=".concat(this.state.longitude, "&lat=").concat(this.state.latitude)).then(function (data) {
+        return data.json();
+      }).then(function (data) {
+        return console.log(data), _this2.setState({
+          ninjas: data
+        });
+      });
+    }
+  }, {
+    key: "handleLatitudeChange",
+    value: function handleLatitudeChange(e) {
+      this.setState({
+        latitude: e.target.value
+      });
+    }
+  }, {
+    key: "handleLongitudeChange",
+    value: function handleLongitudeChange(e) {
+      this.setState({
+        longitude: e.target.value
+      });
+    }
+  }, {
+    key: "showAllNinjas",
+    value: function showAllNinjas() {
+      var _this3 = this;
+
+      fetch('/api/ninjas').then(function (data) {
+        return data.json();
+      }).then(function (json) {
+        return console.log(json), _this3.setState({
+          ninjas: json,
+          longitude: '',
+          latitude: ''
+        });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var ninjas = this.state.ninjas;
+      return _react.default.createElement("div", {
+        id: "ninj-container"
+      }, _react.default.createElement("form", {
+        id: "search",
+        onSubmit: this.handleSubmit
+      }, _react.default.createElement("label", null, "Enter your Latitude"), _react.default.createElement("input", {
+        type: "text",
+        placeholder: "Latitude",
+        value: this.state.latitude,
+        onChange: this.handleLatitudeChange,
+        required: true
+      }), _react.default.createElement("label", null, "Enter your Longitude"), _react.default.createElement("input", {
+        type: "text",
+        placeholder: "Longitude",
+        value: this.state.longitude,
+        onChange: this.handleLongitudeChange,
+        required: true
+      }), _react.default.createElement("input", {
+        type: "submit",
+        value: "Find Ninjas"
+      })), _react.default.createElement("button", {
+        id: "showAll",
+        onClick: this.showAllNinjas
+      }, "Show all Ninjas"), _react.default.createElement("ul", null, ninjas.map(function (ninja) {
+        return _react.default.createElement("li", {
+          key: ninja._id
+        }, _react.default.createElement("span", {
+          className: ninja.available ? "true" : "false"
+        }), _react.default.createElement("span", {
+          className: "name"
+        }, "Name: ", ninja.name), _react.default.createElement("span", {
+          className: "rank"
+        }, ninja.rank), ninja.dis && _react.default.createElement("span", {
+          className: "dist"
+        }, Math.floor(ninja.dis / 1000), "km"));
+      })));
+    }
+  }]);
+
+  return App;
+}(_react.Component);
+
+exports.default = App;
+},{"react":"../node_modules/react/index.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
+var _App = _interopRequireDefault(require("./components/App"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactDom.default.render(_react.default.createElement("h1", null, "Hello World from React"), document.getElementById("ninjas"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js"}],"../../../.nvm/versions/node/v11.1.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+_reactDom.default.render(_react.default.createElement(_App.default, null), document.getElementById("ninjas"));
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/App":"components/App.js"}],"../../../.nvm/versions/node/v11.1.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -24044,7 +24189,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35155" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37217" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
